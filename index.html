@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EmailJS Form Example</title>
+</head>
+<body>
+  <h1>EmailJS Form Example</h1>
+  
+  <form id="myForm">
+    <label for="to">To (Email Address):</label><br>
+    <input type="email" id="to" name="to" required><br><br>
+    
+    <label for="from_name">From (Your Name):</label><br>
+    <input type="text" id="from_name" name="from_name" required><br><br>
+    
+    <label for="message">Message:</label><br>
+    <textarea id="message" name="message" rows="4" required></textarea><br><br>
+    
+    <button type="submit">Send Email</button>
+  </form>
+
+  <!-- Include EmailJS library -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    // Initialize EmailJS with your EmailJS Service ID
+    emailjs.init('service_fnmqfeh');
+
+    // Function to send email using EmailJS
+    function sendEmail(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Retrieve form data
+      const formData = {
+        to_email: document.getElementById('to').value,
+        from_name: document.getElementById('from_name').value,
+        message: document.getElementById('message').value
+      };
+
+      // Send email using EmailJS with your Template ID
+      emailjs.send('service_fnmqfeh', 'template_6h53ib6', formData)
+        .then(function(response) {
+          console.log('SUCCESS!', response.status, response.text);
+          alert('Email sent successfully!');
+        }, function(error) {
+          console.error('FAILED...', error);
+          alert('Email failed to send.');
+        });
+
+      // Reset the form after submission
+      document.getElementById('myForm').reset();
+    }
+
+    // Attach sendEmail function to form submission
+    document.getElementById('myForm').addEventListener('submit', sendEmail);
+  </script>
+</body>
+</html>
